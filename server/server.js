@@ -1,14 +1,24 @@
-const express = require('express')
-const cors = require('cors')
-const imgeRoute = require('./Router/ImageRoute')
-const app = express()
-const port = 4000
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const connectDB = require('./DB/conctionDB'); // Adjust path as per your project structure
+const imgeRoute = require('./Router/ImageRoute'); // Adjust path as per your project structure
 
+dotenv.config();
+const app = express();
+const port = 4000 ||process.env.PORT ; 
 
+// Connect to MongoDB
+connectDB();
 
-app.use(cors())
-app.use(express.json())
-app.use('/api/Image',imgeRoute)
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-app.get('/', (req, res) => res.send('Hello World!'))
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+// Routes
+app.use('/api/images', imgeRoute); 
+
+// Start server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
