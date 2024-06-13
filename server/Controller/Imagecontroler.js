@@ -1,20 +1,14 @@
+const UserModel = require('../models/User.js');
 
-const imageUpload = (req, res) => {
-    
-    if (!req.file) {
-        return res.status(400).send('No files were uploaded.');
-    }
-    const uploadedFile = {
-        filename: req.file.filename,
-        path: req.file.path,
-        mimetype: req.file.mimetype,
-        size: req.file.size
-    };
+const imageUpload = async (req, res) => {
+   try {
+     const image = new UserModel({ image: req.file.filename });
 
-    res.status(200).json({
-        message: 'File uploaded successfully',
-        file: uploadedFile
-    });
+     const savedImage = await image.save();
+     res.status(200).json({ message: "Image uploaded", savedImage });
+   } catch (error) {
+     res.status(500).json({ message: "Internal server error", error });
+   }
 };
 
-module.exports = {imageUpload};
+module.exports = { imageUpload };
