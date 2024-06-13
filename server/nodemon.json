@@ -1,0 +1,4 @@
+{
+  "watch": ["server.js", "Router", "controllers"],
+  "ext": "js,mjs,cjs"
+}
